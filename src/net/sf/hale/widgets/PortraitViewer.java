@@ -338,10 +338,10 @@ public class PortraitViewer extends BasePortraitViewer implements Runnable, Drop
 				Inventory givingInventory = target.getParentPC().inventory;
 				
 				if (target.getItemEquipSlot() != null) {
-					givingInventory.getGiveEquippedCallback(target.getItemEquipSlot(), pc).run();
+					givingInventory.getCallBack().getGiveEquippedCallback(target.getItemEquipSlot(), pc).run();
 				} else {
 					int quantity = givingInventory.getUnequippedItems().getQuantity(target.getItem());
-					givingInventory.getGiveCallback(target.getItem(), quantity, pc).run();
+					givingInventory.getCallBack().getGiveCallback(target.getItem(), quantity, pc).run();
 				}
 				
 			} else if (target.getItemContainer() != null && Game.mainViewer.containerWindow.getOpener() == getCreature()) {
@@ -349,7 +349,7 @@ public class PortraitViewer extends BasePortraitViewer implements Runnable, Drop
 				Container container = target.getItemContainer();
 				
 				int quantity = container.getCurrentItems().getQuantity(target.getItem());
-				pc.inventory.getTakeCallback(target.getItem(), quantity, container).run();
+				pc.inventory.getCallBack().getTakeCallback(target.getItem(), quantity, container).run();
 				
 			} else if (target.getItemMerchant() != null) {
 				// attempt buy drag & drop

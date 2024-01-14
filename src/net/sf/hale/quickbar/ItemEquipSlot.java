@@ -196,12 +196,12 @@ public class ItemEquipSlot extends QuickbarSlot {
 			
 			if (parent.inventory.isEquipped(item)) {
 				// unequip both items
-				parent.inventory.getUnequipCallback(parent.inventory.getSlot(item)).run();
+				parent.inventory.getCallBack().getUnequipCallback(parent.inventory.getSlot(item)).run();
 				
 				if (parent.inventory.isEquipped(secondaryItem)) {
 					// don't charge AP for the second equip action
 					parent.timer.setFreeMode(true);
-					parent.inventory.getUnequipCallback(parent.inventory.getSlot(secondaryItem)).run();
+					parent.inventory.getCallBack().getUnequipCallback(parent.inventory.getSlot(secondaryItem)).run();
 					parent.timer.setFreeMode(false);
 				}
 				
@@ -220,9 +220,9 @@ public class ItemEquipSlot extends QuickbarSlot {
 			
 			Inventory.Slot slot = parent.inventory.getSlot(item);
 			if (slot != null) {
-				parent.inventory.getUnequipCallback(slot).run();
+				parent.inventory.getCallBack().getUnequipCallback(slot).run();
 			} else if (parent.inventory.getUnequippedItems().contains(item)) {
-				parent.inventory.getEquipCallback(item, null).run();
+				parent.inventory.getCallBack().getEquipCallback(item, null).run();
 			}
 		}
 	}

@@ -237,7 +237,7 @@ public class InventoryWindow extends GameSubWindow implements ItemIconViewer.Lis
 		menu.setPosition(x - 2, y - 25);
 		
 		Button button = new Button("Unequip");
-		button.addCallback(creature.inventory.getUnequipCallback(equippedViewer.slot));
+		button.addCallback(creature.inventory.getCallBack().getUnequipCallback(equippedViewer.slot));
 		button.setEnabled(creature.timer.canPerformEquipAction(item) && item.getTemplate().isUnequippable());
 		if (!item.getTemplate().isUnequippable()) {
 			button.setTooltipContent("Item may not be removed");
@@ -333,7 +333,7 @@ public class InventoryWindow extends GameSubWindow implements ItemIconViewer.Lis
 					creature.inventory.equipItem((EquippableItem)target.getItem(), slot);
 				} else if (target.getItemContainer() != null && target.getItem() instanceof EquippableItem) {
 					// equip an item from a container
-					creature.inventory.getTakeAndWieldCallback((EquippableItem)target.getItem(), target.getItemContainer()).run();
+					creature.inventory.getCallBack().getTakeAndWieldCallback((EquippableItem)target.getItem(), target.getItemContainer()).run();
 				}
 			}
 			

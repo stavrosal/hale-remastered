@@ -94,7 +94,7 @@ public class ContainerWindow extends GameSubWindow {
 	private void takeAll() {
 		if (opener == null || container == null) return;
 		
-		opener.inventory.getTakeAllCallback(container).run();
+		opener.inventory.getCallBack().getTakeAllCallback(container).run();
 		
 		this.setVisible(false);
 	}

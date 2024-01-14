@@ -20,6 +20,7 @@
 package net.sf.hale.widgets;
 
 import net.sf.hale.Game;
+import net.sf.hale.entity.Inventory;
 import de.matthiasmann.twl.Button;
 import de.matthiasmann.twl.Label;
 import de.matthiasmann.twl.PopupWindow;

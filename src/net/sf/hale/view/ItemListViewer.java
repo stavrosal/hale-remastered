@@ -404,19 +404,19 @@ public class ItemListViewer extends Widget implements ItemIconViewer.Listener, D
 			
 			if (addButton) {
 				Button button = new Button("Take and Wield");
-				button.addCallback(creature.inventory.getTakeAndWieldCallback(eItem, container));
+				button.addCallback(creature.inventory.getCallBack().getTakeAndWieldCallback(eItem, container));
 				menu.addButton(button);
 			}
 		}
 		
 		if (creature.timer.canPerformAction(Game.ruleset.getValue("PickUpItemCost"))) {
 			Button button = new Button("Take");
-			button.addCallback(creature.inventory.getTakeCallback(item, 1, container));
+			button.addCallback(creature.inventory.getCallBack().getTakeCallback(item, 1, container));
 			menu.addButton(button);
 			
 			if (quantity > 1) {
 				button = new Button("Take Multiple...");
-				button.addCallback(creature.inventory.getTakeCallback(item, quantity, container));
+				button.addCallback(creature.inventory.getCallBack().getTakeCallback(item, quantity, container));
 				menu.addButton(button);
 			}
 		}
@@ -482,14 +482,14 @@ public class ItemListViewer extends Widget implements ItemIconViewer.Listener, D
 			EquippableItem eItem = (EquippableItem)item;
 			
 			Button button = new Button("Equip");
-			button.addCallback(creature.inventory.getEquipCallback(eItem, null));
+			button.addCallback(creature.inventory.getCallBack().getEquipCallback(eItem, null));
 			checkEquipButton(button, eItem);
 			
 			menu.addButton(button);
 			
 			if (eItem instanceof Weapon && creature.inventory.canEquip(eItem, Inventory.Slot.OffHand)) {
 				Button offHandButton = new Button("Equip Off Hand");
-				offHandButton.addCallback(creature.inventory.getEquipCallback(eItem, Inventory.Slot.OffHand));
+				offHandButton.addCallback(creature.inventory.getCallBack().getEquipCallback(eItem, Inventory.Slot.OffHand));
 				checkEquipButton(offHandButton, eItem);
 				
 				menu.addButton(offHandButton);
@@ -505,23 +505,23 @@ public class ItemListViewer extends Widget implements ItemIconViewer.Listener, D
 		if ((creature.timer.canPerformAction(Game.ruleset.getValue("GiveItemCost")) ||
 				!Game.isInTurnMode()) && Game.curCampaign.party.size() > 1) {
 			Button button = new Button("Give >>");
-			button.addCallback(creature.inventory.getGiveCallback(item, 1));
+			button.addCallback(creature.inventory.getCallBack().getGiveCallback(item, 1));
 			menu.addButton(button);
 
 			if (quantity > 1) {
 				button = new Button("Give Multiple >>");
-				button.addCallback(creature.inventory.getGiveCallback(item, quantity));
+				button.addCallback(creature.inventory.getCallBack().getGiveCallback(item, quantity));
 				menu.addButton(button);
 			}
 		}
 		if (!item.getTemplate().isQuest() && creature.timer.canPerformAction(Game.ruleset.getValue("DropItemCost"))) {
 			Button button = new Button("Drop");
-			button.addCallback(creature.inventory.getDropCallback(item, 1));
+			button.addCallback(creature.inventory.getCallBack().getDropCallback(item, 1));
 			menu.addButton(button);
 
 			if (quantity > 1) {
 				button = new Button("Drop Multiple...");
-				button.addCallback(creature.inventory.getDropCallback(item, quantity));
+				button.addCallback(creature.inventory.getCallBack().getDropCallback(item, quantity));
 				menu.addButton(button);
 			}
 		}
@@ -628,7 +628,7 @@ public class ItemListViewer extends Widget implements ItemIconViewer.Listener, D
 		}
 		
 		private void dragDropMerchantFromEquipped(DragTarget target) {
-			target.getParentPC().inventory.getSellEquippedCallback(target.getItemEquipSlot(), merchant).run();
+			target.getParentPC().inventory.getCallBack().getSellEquippedCallback(target.getItemEquipSlot(), merchant).run();
 		}
 		
 		private void dragDropMerchantFromInventory(DragTarget target) {
@@ -649,7 +649,7 @@ public class ItemListViewer extends Widget implements ItemIconViewer.Listener, D
 		}
 		
 		private void dragDropInventoryFromEquipped(DragTarget target) {
-			creature.inventory.getUnequipCallback(target.getItemEquipSlot()).run();
+			creature.inventory.getCallBack().getUnequipCallback(target.getItemEquipSlot()).run();
 		}
 		
 		private void dragDropInventoryFromContainer(DragTarget target) {
@@ -657,16 +657,16 @@ public class ItemListViewer extends Widget implements ItemIconViewer.Listener, D
 			
 			int quantity = container.getCurrentItems().getQuantity(target.getItem());
 			
-			creature.inventory.getTakeCallback(target.getItem(), quantity, target.getItemContainer()).run();
+			creature.inventory.getCallBack().getTakeCallback(target.getItem(), quantity, target.getItemContainer()).run();
 		}
 		
 		private void dragDropContainerFromInventory(DragTarget target) {
 			Inventory srcInventory = target.getParentPC().inventory;
 			
 			if (target.getItemEquipSlot() == null) {
-				srcInventory.getDropEquippedCallback(target.getItemEquipSlot()).run();
+				srcInventory.getCallBack().getDropEquippedCallback(target.getItemEquipSlot()).run();
 			} else {
-				srcInventory.getDropCallback(target.getItem(), srcInventory.getTotalQuantity(target.getItem())).run();
+				srcInventory.getCallBack().getDropCallback(target.getItem(), srcInventory.getTotalQuantity(target.getItem())).run();
 			}
 		}
 		
